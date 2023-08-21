@@ -34,7 +34,7 @@ document.querySelector('.buttons').addEventListener('click', (event) => {
                         firstOperand = currentInput;
                         currentInput = "";
                     }
-                    currentOperator = value;
+                    currentOperator = action;
                     break;
             }
         }
