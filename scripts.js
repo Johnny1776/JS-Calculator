@@ -4,13 +4,24 @@ let currentOperator = "";
 let firstOperand = "";
 
 document.querySelector('.buttons').addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') {
         const value = event.target.getAttribute('data-value');
         const action = event.target.getAttribute('data-action');
 
         if (value) {
-            currentInput += value;
-            display.value = currentInput;
+            if (['+', '-', '*', '/'].includes(value)) { // Check if the value is an operator
+                if (firstOperand) {
+                    firstOperand = calculate(firstOperand, currentInput, currentOperator);
+                    display.value = firstOperand;
+                    currentInput = "";
+                } else {
+                    firstOperand = currentInput;
+                    currentInput = "";
+                }
+                currentOperator = value;
+            } else {
+                currentInput += value;
+                display.value = currentInput;
+            }
         } else if (action) {
             switch (action) {
                 case 'clear':
@@ -31,14 +42,13 @@ document.querySelector('.buttons').addEventListener('click', (event) => {
                         display.value = firstOperand;
                         currentInput = "";
                     } else {
-                        firstOperand = currentInput;
+                        firstOperand = action;
                         currentInput = "";
                     }
                     currentOperator = action;
                     break;
             }
         }
-    }
 });
 
 function calculate(operand1, operand2, operator) {
